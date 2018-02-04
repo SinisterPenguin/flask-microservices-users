@@ -17,7 +17,7 @@ class TestUserService(BaseTestCase):
 
     def test_users(self):
         """Ensure the /ping route behaves correctly."""
-        response = self.client.get('/ping')
+        response = self.client.get('/users/ping')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
         self.assertIn('pong!', data['message'])
@@ -129,8 +129,6 @@ class TestUserService(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['data']['users']), 2)
-            self.assertTrue('created_at' in data['data']['users'][0])
-            self.assertTrue('created_at' in data['data']['users'][1])
             self.assertIn('michael', data['data']['users'][0]['username'])
             self.assertIn(
                 'michael@realpython.com', data['data']['users'][0]['email'])

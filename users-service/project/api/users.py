@@ -79,20 +79,10 @@ def get_single_user(user_id):
 @users_blueprint.route('/users', methods=['GET'])
 def get_all_users():
     """Get all users"""
-    users = User.query.all()
-    users_list = []
-    for user in users:
-        user_object = {
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'created_at': user.created_at
-        }
-        users_list.append(user_object)
     response_object = {
         'status': 'success',
         'data': {
-            'users': users_list
+            'users': [user.to_json() for user in User.query.all()]
         }
     }
     return jsonify(response_object), 200
