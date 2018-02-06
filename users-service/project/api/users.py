@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 
 from project.api.models import User
 from project import db
 from sqlalchemy import exc
 
-users_blueprint = Blueprint('users', __name__)
+users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 
 @users_blueprint.route('/users/ping', methods=['GET'])
@@ -66,9 +66,9 @@ def get_single_user(user_id):
             response_object = {
                 'status': 'success',
                 'data': {
-                  'username': user.username,
-                  'email': user.email,
-                  'created_at': user.created_at
+                    'username': user.username,
+                    'email': user.email,
+                    'created_at': user.created_at
                 }
             }
             return jsonify(response_object), 200
@@ -86,3 +86,8 @@ def get_all_users():
         }
     }
     return jsonify(response_object), 200
+
+
+@users_blueprint.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
